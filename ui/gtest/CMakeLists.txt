@@ -11,35 +11,42 @@ find_package(
     Qt5 REQUIRED
     Core
     Network
+    Widgets
 )
 
 set(
-    DRIVERS_GTEST_SRC
-    hmp4040driver_test.cpp
+    UI_GTEST_SRC
+    powersupplypanel_test.cpp
+    psuchannelpanel_test.cpp
 )
 
 set(
-    DRIVERS_GMOCK_H
-    mocktcpsocket.h
-    mockpsuinterface.h
+    UI_GMOCK_H
 )
 
 include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}/..
-    ${CMAKE_SOURCE_DIR}/gtest
+    ${CMAKE_CURRENT_SOURCE_DIR}..
+    ${CMAKE_CURRENT_SOURCE_DIR}drivers
+    ${CMAKE_CURRENT_SOURCE_DIR}drivers/gtest
+    ${CURRENT_SOURCE_DIR}../
+    ${CURRENT_SOURCE_DIR}../drivers
+    ${CURRENT_SOURCE_DIR}../drivers/gtest
 )
 
 add_library(
-    drivers_gtest
-    ${DRIVERS_GTEST_SRC}
-    ${DRIVERS_GMOCK_H}
+    ui_gtest
+    ${UI_GTEST_SRC}
+    ${UI_GMOCK_H}
 )
 
 target_link_libraries(
+    ui_gtest
+    ui
     drivers_gtest
     drivers
     gtest_main
     gmock
     Qt5::Core
     Qt5::Network
+    Qt5::Widgets
 )

@@ -15,6 +15,7 @@ class HMP4040Driver : public QThread, public PSUInterface
 public:
     explicit HMP4040Driver(TcpSocketInterface *socket, QObject *parent = nullptr) noexcept;
     ~HMP4040Driver() override;
+    std::vector<int> channels();
 
     bool open(const QString &address, const int port);
     void setOutput(const bool enable, const int channel);
@@ -45,4 +46,6 @@ private:
 
     QQueue<std::function<bool()>> m_events;
     QMutex m_mutex;
+
+    std::vector<int> m_channels;
 };

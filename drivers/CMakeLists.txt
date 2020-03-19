@@ -8,28 +8,36 @@ else()
     add_compile_options(-std=c++11)
 endif()
 
-find_package(Qt5 REQUIRED Core Network)
+find_package(
+    Qt5 REQUIRED
+    Core
+    Network
+)
 
-set(DRIVERS_SRC
+set(
+    DRIVERS_SRC
     tcpsocket.cpp
     hmp4040_driver.cpp
 )
 
-set(DRIVERS_H
+set(
+    DRIVERS_H
     psuinterface.h
     tcpsocketinterface.h
     tcpsocket.h
     hmp4040_driver.h
 )
 
-include_directories(${egc_SOURCE_DIR}/libs/ebird_common
-)
-
 qt5_wrap_cpp(DRIVERS_QT_HEADERS_MOC ${DRIVERS_H})
 
-add_library (drivers ${DRIVERS_SRC} ${DRIVERS_QT_HEADERS_MOC})
-target_link_libraries(drivers
+add_library(
+    drivers
+    ${DRIVERS_SRC}
+    ${DRIVERS_QT_HEADERS_MOC}
+)
+
+target_link_libraries(
+    drivers
     Qt5::Core
     Qt5::Network
-    ebird_common
 )

@@ -4,9 +4,8 @@
 class PSUInterface
 {
 public:
-    PSUInterface() : m_channels(std::vector<int>{1}) { }
     virtual ~PSUInterface() { }
-    std::vector<int> channels() const { return m_channels; }
+    virtual std::vector<int> channels() = 0;
 
     virtual void setOutput(bool enable, int channel = 1) = 0;
     virtual void setVoltage(float voltage, int channel = 1) = 0;
@@ -15,6 +14,4 @@ public:
     virtual float voltage(int channel = 1) = 0;
     virtual float current(int channel = 1) = 0;
 
-protected:
-    std::vector<int> m_channels;
 };

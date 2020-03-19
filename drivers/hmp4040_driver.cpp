@@ -15,6 +15,11 @@ HMP4040Driver::~HMP4040Driver()
     }
 }
 
+std::vector<int> HMP4040Driver::channels()
+{
+    return m_channels;
+}
+
 bool HMP4040Driver::open(const QString &address, const int port)
 {
     if (!exitEventLoop()) {
