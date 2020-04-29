@@ -1,9 +1,10 @@
 #include "hmp4040_driver.h"
 #include <QMutexLocker>
 
-HMP4040Driver::HMP4040Driver(TcpSocketInterface *socket, QObject *parent) noexcept
+HMP4040Driver::HMP4040Driver(std::shared_ptr<TcpSocketInterface> socket, QObject *parent) noexcept
     : QThread(parent)
     , m_socket(socket)
+    , m_getMissed(false)
 {
     m_channels = std::vector<int>{1, 2, 3, 4};
 }
@@ -26,10 +27,8 @@ bool HMP4040Driver::open(const QString &address, const int port)
         emit error(QString("HMP4040Driver::open(%0, %1) : Failed to stop event loop").arg(address).arg(port));
         return false;
     }
-    if (!m_socket->connect(address, port)) {
-        emit error(QString("HMP4040Driver::open(%0, %1) : Connection timeout").arg(address).arg(port));
-        return false;
-    }
+    m_address = address;
+    m_port = port;
     return startEventLoop();
 }
 
@@ -69,6 +68,9 @@ float HMP4040Driver::current(const int channel)
 void HMP4040Driver::run()
 {
     QMutexLocker lock(&m_mutex);
+    if (!m_socket->connect(m_address, m_port)) {
+        return;
+    }
     while (!m_events.empty()) {
         auto event = m_events.dequeue();
         m_mutex.unlock();
@@ -135,12 +137,18 @@ bool HMP4040Driver::post(const QString &resource, Type value)
 QString HMP4040Driver::get(const QString &resource)
 {
     QString reply;
+    if (m_getMissed) {
+        QThread::msleep(100);
+        m_socket->read(reply);
+        m_getMissed = false;
+    }
     if (!m_socket->write(QString("%1?\n").arg(resource))) {
         emit error(QString("HMP4040Driver::get(%0) : Failed to write").arg(resource));
         return reply;
     }
     if (!m_socket->read(reply)) {
         emit error(QString("HMP4040Driver::get(%0) : Failed to read").arg(resource));
+        m_getMissed = true;
     }
     return reply.remove('\n');
 }

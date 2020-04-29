@@ -17,6 +17,6 @@ TEST(PowerSupplyPanel, testConstruction){
         EXPECT_CALL(*driver, voltage(channel)).Times(AtLeast(1)).WillRepeatedly(Return(volt));
         EXPECT_CALL(*driver, current(channel)).Times(AtLeast(1)).WillRepeatedly(Return(amp));
     }
-    auto panel = std::make_shared<PowerSupplyPanel>("Psu test", driver.get());
+    auto panel = std::make_shared<PowerSupplyPanel>("Psu test", driver);
     ASSERT_EQ(panel->channels().size(), channels.size());
 }

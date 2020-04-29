@@ -13,7 +13,7 @@ TEST(PsuChannelPanel, testDisplay){
     const float amp = 2.5;
     EXPECT_CALL(*driver, voltage(CHANNEL)).Times(AtLeast(1)).WillRepeatedly(Return(volt));
     EXPECT_CALL(*driver, current(CHANNEL)).Times(AtLeast(1)).WillRepeatedly(Return(amp));
-    auto panel = std::make_shared<PsuChannelPanel>(CHANNEL, driver.get());
+    auto panel = std::make_shared<PsuChannelPanel>(CHANNEL, driver);
 
     ASSERT_EQ(panel->getVoltage(), volt);
     ASSERT_EQ(panel->getCurrent(), amp);
@@ -26,7 +26,7 @@ TEST(PsuChannelPanel, testEditMode){
     const float amp = 2.5;
     EXPECT_CALL(*driver, voltage(CHANNEL)).Times(AtLeast(1)).WillRepeatedly(Return(volt));
     EXPECT_CALL(*driver, current(CHANNEL)).Times(AtLeast(1)).WillRepeatedly(Return(amp));
-    auto panel = std::make_shared<PsuChannelPanel>(CHANNEL, driver.get());
+    auto panel = std::make_shared<PsuChannelPanel>(CHANNEL, driver);
 
     for (const auto& enable : {true, false}) {
         panel->setEditMode(enable);

@@ -1,7 +1,7 @@
 #include "psuchannelpanel.h"
 #include <QHBoxLayout>
 
-PsuChannelPanel::PsuChannelPanel(const int &channel, PSUInterface *psu, QWidget *parent)
+PsuChannelPanel::PsuChannelPanel(const int &channel, std::shared_ptr<PSUInterface> psu, QWidget *parent)
     : QFrame(parent)
     , m_channel(channel)
     , m_psu(psu)

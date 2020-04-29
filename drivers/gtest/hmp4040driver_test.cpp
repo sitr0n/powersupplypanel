@@ -14,7 +14,7 @@ const int threadDelay = 30;
 TEST(HMP4040Driver, testOpen)
 {
     auto socket = std::make_shared<MockTcpSocket>();
-    auto driver = std::make_shared<HMP4040Driver>(socket.get());
+    auto driver = std::make_shared<HMP4040Driver>(socket);
 
     EXPECT_CALL(*socket, connect(address, port))
             .Times(1)
@@ -27,7 +27,7 @@ TEST(HMP4040Driver, testOpen)
 TEST(HMP4040Driver, testSetOutput)
 {
     auto socket = std::make_shared<MockTcpSocket>();
-    auto driver = std::make_shared<HMP4040Driver>(socket.get());
+    auto driver = std::make_shared<HMP4040Driver>(socket);
     const int channel = 1;
     EXPECT_CALL(*socket, connect(address, port))
             .Times(1)
@@ -53,7 +53,7 @@ TEST(HMP4040Driver, testSetOutput)
 TEST(HMP4040Driver, testSetVoltage)
 {
     auto socket = std::make_shared<MockTcpSocket>();
-    auto driver = std::make_shared<HMP4040Driver>(socket.get());
+    auto driver = std::make_shared<HMP4040Driver>(socket);
     const float volt = 18.0;
     const int channel = 1;
     EXPECT_CALL(*socket, connect(address, port))
@@ -78,7 +78,7 @@ TEST(HMP4040Driver, testSetVoltage)
 TEST(HMP4040Driver, testSetCurrent)
 {
     auto socket = std::make_shared<MockTcpSocket>();
-    auto driver = std::make_shared<HMP4040Driver>(socket.get());
+    auto driver = std::make_shared<HMP4040Driver>(socket);
     const float curr = 2.0;
     const int channel = 1;
     EXPECT_CALL(*socket, connect(address, port))
@@ -103,7 +103,7 @@ TEST(HMP4040Driver, testSetCurrent)
 TEST(HMP4040Driver, testVoltage)
 {
     auto socket = std::make_shared<MockTcpSocket>();
-    auto driver = std::make_shared<HMP4040Driver>(socket.get());
+    auto driver = std::make_shared<HMP4040Driver>(socket);
     const float volt = 18.0;
     const int channel = 1;
     EXPECT_CALL(*socket, connect(address, port))
@@ -128,7 +128,7 @@ TEST(HMP4040Driver, testVoltage)
 TEST(HMP4040Driver, testCurrent)
 {
     auto socket = std::make_shared<MockTcpSocket>();
-    auto driver = std::make_shared<HMP4040Driver>(socket.get());
+    auto driver = std::make_shared<HMP4040Driver>(socket);
     const float curr = 2.0;
     const int channel = 1;
     EXPECT_CALL(*socket, connect(address, port))

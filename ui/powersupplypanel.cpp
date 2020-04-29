@@ -1,7 +1,7 @@
 #include "powersupplypanel.h"
 #include <QVBoxLayout>
 
-PowerSupplyPanel::PowerSupplyPanel(const QString &title, PSUInterface *psu, QWidget *parent)
+PowerSupplyPanel::PowerSupplyPanel(const QString &title, std::shared_ptr<PSUInterface> psu, QWidget *parent)
     : QWidget(parent)
 {
     setSizePolicy(QSizePolicy::Minimum, QSizePolicy::MinimumExpanding);

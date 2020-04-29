@@ -10,7 +10,7 @@ class PowerSupplyPanel : public QWidget
 {
     Q_OBJECT
 public:
-    explicit PowerSupplyPanel(const QString &title, PSUInterface *psu, QWidget *parent = nullptr);
+    explicit PowerSupplyPanel(const QString &title, std::shared_ptr<PSUInterface> psu, QWidget *parent = nullptr);
     std::vector<std::shared_ptr<PsuChannelPanel>> channels() const;
 
 protected:

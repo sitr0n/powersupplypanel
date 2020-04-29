@@ -2,6 +2,7 @@
 #include <QWidget>
 #include <QFrame>
 #include "../drivers/psuinterface.h"
+#include <memory>
 #include <QPushButton>
 #include <QSpacerItem>
 #include <QLCDNumber>
@@ -13,7 +14,7 @@ class PsuChannelPanel : public QFrame
 {
     Q_OBJECT
 public:
-    explicit PsuChannelPanel(const int &channel, PSUInterface *psu, QWidget *parent = nullptr);
+    explicit PsuChannelPanel(const int &channel, std::shared_ptr<PSUInterface> psu, QWidget *parent = nullptr);
     void setEditMode(const bool enable);
     bool editMode() const;
     double getVoltage() const;
@@ -30,7 +31,7 @@ protected:
 
 private:
     int m_channel;
-    PSUInterface *m_psu;
+    std::shared_ptr<PSUInterface> m_psu;
     QPushButton *m_editButton;
     QLCDNumber *m_voltageDisplay;
     QLCDNumber *m_currentDisplay;

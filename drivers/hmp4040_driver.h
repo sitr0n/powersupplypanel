@@ -13,7 +13,7 @@ class HMP4040Driver : public QThread, public PSUInterface
 {
     Q_OBJECT
 public:
-    explicit HMP4040Driver(TcpSocketInterface *socket, QObject *parent = nullptr) noexcept;
+    explicit HMP4040Driver(std::shared_ptr<TcpSocketInterface> socket, QObject *parent = nullptr) noexcept;
     ~HMP4040Driver() override;
     std::vector<int> channels();
 
@@ -40,12 +40,15 @@ protected:
     using QThread::start;
 
 private:
-    TcpSocketInterface *m_socket;
+    std::shared_ptr<TcpSocketInterface> m_socket;
     QMap<int, double> m_voltage;
     QMap<int, double> m_current;
 
     QQueue<std::function<bool()>> m_events;
     QMutex m_mutex;
 
+    bool m_getMissed;
     std::vector<int> m_channels;
+    QString m_address;
+    int m_port;
 };
