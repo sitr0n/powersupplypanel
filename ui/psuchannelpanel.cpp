@@ -97,10 +97,17 @@ QLineEdit *PsuChannelPanel::createVoltageEdit()
 {
     m_voltageEdit->setMinimumSize(QSize(FIELD_WIDTH, FIELD_HEIGHT));
     m_voltageEdit->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    m_voltageEdit->setFocusPolicy(Qt::ClickFocus);
 
     connect(m_voltageEdit, &QLineEdit::returnPressed, [&]{
-        m_voltageDisplay->display(m_voltageEdit->text());
+        bool converted = false;
+        auto requestedVoltage = m_voltageEdit->text().toDouble(&converted);
+        if (converted) {
+            m_psu->setVoltage(requestedVoltage, m_channel);
+        }
         setEditMode(false);
+        m_voltageEdit->clear();
+        m_voltageEdit->clearFocus();
     });
     return m_voltageEdit;
 }
@@ -128,5 +135,17 @@ QLineEdit *PsuChannelPanel::createCurrentEdit()
 {
     m_currentEdit->setMinimumSize(QSize(FIELD_WIDTH, FIELD_HEIGHT));
     m_currentEdit->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    m_currentEdit->setFocusPolicy(Qt::ClickFocus);
+
+    connect(m_currentEdit, &QLineEdit::returnPressed, [&]{
+        bool converted = false;
+        auto requestedCurrent = m_currentEdit->text().toDouble(&converted);
+        if (converted) {
+            m_psu->setCurrent(requestedCurrent, m_channel);
+        }
+        setEditMode(false);
+        m_currentEdit->clear();
+        m_currentEdit->clearFocus();
+    });
     return m_currentEdit;
 }
