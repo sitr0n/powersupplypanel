@@ -6,8 +6,8 @@ PsuChannelPanel::PsuChannelPanel(const int &channel, std::shared_ptr<PSUInterfac
     , m_channel(channel)
     , m_psu(psu)
     , m_editButton(new QPushButton(QString::number(channel), this))
-    , m_voltageDisplay(new QLCDNumber(5, this))
-    , m_currentDisplay(new QLCDNumber(5, this))
+    , m_voltageDisplay(new QLCDNumber(7, this))
+    , m_currentDisplay(new QLCDNumber(7, this))
     , m_voltageEdit(new QLineEdit(this))
     , m_currentEdit(new QLineEdit(this))
     , m_ticker(new QTimer(this))
@@ -28,8 +28,8 @@ PsuChannelPanel::PsuChannelPanel(const int &channel, std::shared_ptr<PSUInterfac
 
     setEditMode(m_isEditing);
     auto refreshDisplay = [&]{
-        m_voltageDisplay->display((m_psu->voltage(m_channel)));
-        m_currentDisplay->display((m_psu->current(m_channel)));
+        m_voltageDisplay->display(QString::number(m_psu->voltage(m_channel), 'f', 4));
+        m_currentDisplay->display(QString::number(m_psu->current(m_channel), 'f', 4));
     };
     refreshDisplay();
     connect(m_ticker, &QTimer::timeout, refreshDisplay);
