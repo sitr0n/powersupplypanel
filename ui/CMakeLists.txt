@@ -29,9 +29,6 @@ set(
 qt5_wrap_cpp(UI_QT_HEADERS_MOC ${UI_H})
 
 include_directories(
-    #${CMAKE_CURRENT_SOURCE_DIR}/../
-    #${CMAKE_CURRENT_SOURCE_DIR}/../drivers
-    #${CMAKE_CURRENT_SOURCE_DIR}/../drivers/gtest
     ${CURRENT_SOURCE_DIR}/../
     ${CURRENT_SOURCE_DIR}/../drivers
     ${CURRENT_SOURCE_DIR}/../drivers/gtest
